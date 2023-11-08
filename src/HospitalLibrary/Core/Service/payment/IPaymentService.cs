@@ -13,7 +13,7 @@ namespace HospitalLibrary.Core.Service.payment
         void Create(Payment paymentDTO);
         void Update(Payment paymentDTO);
         Payment GetById(string id); 
-        Payment UpdateStatusAuthorized(string id);
+        Payment UpdateStatusVoid(string id);
         Payment UpdateStatusCaptured(string id);
 
         IEnumerable<Payment> GetAllCaptured(int page, int pageSize);

@@ -56,10 +56,10 @@ namespace HospitalLibrary.Core.Service.payment
             _paymentRepository.Update(paymentDTO); 
         }
 
-        public Payment UpdateStatusAuthorized(string id)
+        public Payment UpdateStatusVoid(string id)
         {
             Payment payment = _paymentRepository.GetById(id);
-            payment.PaymentStatus = PaymentStatus.AUTHORIZED;
+            payment.PaymentStatus = PaymentStatus.VOIDED;
 
             _paymentRepository.Update(payment);
             return payment;
