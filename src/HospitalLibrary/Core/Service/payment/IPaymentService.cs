@@ -1,4 +1,5 @@
-﻿using HospitalLibrary.Core.Model;
+﻿using HospitalLibrary.Core.Dto;
+using HospitalLibrary.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace HospitalLibrary.Core.Service.payment
         Payment UpdateStatusVoid(string id);
         Payment UpdateStatusCaptured(string id);
 
-        IEnumerable<Payment> GetAllCaptured(int page, int pageSize);
-        List<Payment> GetCaptured();
+        IEnumerable<ShowCapturedPayments> GetAllCaptured(int page, int pageSize);
+        List<ShowCapturedPayments> GetCaptured();
 
     }
 }

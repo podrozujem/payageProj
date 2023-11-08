@@ -1,4 +1,5 @@
-﻿using HospitalLibrary.Core.Model;
+﻿using HospitalLibrary.Core.Dto;
+using HospitalLibrary.Core.Model;
 using HospitalLibrary.Core.Repository.payment;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace HospitalLibrary.Core.Service.payment
             return _paymentRepository.GetAll(); 
         }
 
-        public IEnumerable<Payment> GetAllCaptured(int page, int pageSize)
+        public IEnumerable<ShowCapturedPayments> GetAllCaptured(int page, int pageSize)
         {
-            List<Payment> capturedList = GetCaptured();
+            List<ShowCapturedPayments> capturedList = GetCaptured();
             var totalCount = capturedList.Count;
             var totalPages = (int) Math.Ceiling((decimal) totalCount / pageSize);
             var paymentsPerPage = capturedList.Skip(page).Take(pageSize).ToList();
@@ -41,15 +42,24 @@ namespace HospitalLibrary.Core.Service.payment
             return _paymentRepository.GetById(id); 
         }
 
-        public List<Payment> GetCaptured()
+        public List<ShowCapturedPayments> GetCaptured()
         {
             IEnumerable<Payment> lista = GetAll();
 
-            List<Payment> capturedPayments = new List<Payment>();  
+            List<ShowCapturedPayments> capturedPayments = new List<ShowCapturedPayments>();  
             foreach (Payment payment in lista)
             {
                 if (payment.PaymentStatus.Equals(PaymentStatus.CAPTURED)) {
-                    capturedPayments.Add(payment); 
+                    ShowCapturedPayments showCapturedPayment = new ShowCapturedPayments();
+                    showCapturedPayment.Amount = payment.Amount.ToString(); 
+                    showCapturedPayment.Currency = payment.Currency;
+                    showCapturedPayment.HolderName = payment.HolderName;
+                    showCapturedPayment.Status = "Captured";
+                    var firstThree = payment.CardHolderNumber.Substring(0, 3); 
+                    var lastThree = payment.CardHolderNumber.Substring(payment.CardHolderNumber.Length - 3);
+                    showCapturedPayment.CardholderNumber = firstThree + "*******" + lastThree;
+
+                    capturedPayments.Add(showCapturedPayment); 
                 }
             }
 

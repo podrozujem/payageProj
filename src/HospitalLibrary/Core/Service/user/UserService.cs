@@ -1,7 +1,6 @@
 using HospitalLibrary.Core.Model;
 using HospitalLibrary.Core.Repository.user;
 using HospitalLibrary.Core.SecurePassword;
-using HospitalLibrary.Core.Service.email;
 using HospitalLibrary.Core.Service.user;
 using System;
 using System.Collections.Generic;
@@ -12,12 +11,10 @@ namespace HospitalLibrary.Core.Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IEmailService _emailService;
 
-        public UserService(IUserRepository userRepository, IEmailService emailService)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            _emailService = emailService;
         }
 
         public IEnumerable<User> GetAll()
@@ -51,19 +48,8 @@ namespace HospitalLibrary.Core.Service
             user.RequirePasswordChange = true;
             user.Password = Guid.NewGuid().ToString();
             //TODO validacija da li je user.email vec postojeci
-            if(_userRepository.GetByEmail(user.Email) != null)
-            {
-                throw new Exception("Email already registered.");
-            }
-            _userRepository.Create(user);
-            try
-            {
-                _emailService.SendDummyPasswordToEmail(user.Email, user.Password);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error sending email.");
-            }
+            throw new Exception("Error sending email.");
+            
         }
 
         public User Login(User user)
