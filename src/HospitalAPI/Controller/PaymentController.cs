@@ -85,8 +85,8 @@ namespace HospitalAPI.Controller
             return Ok(payment);
         }
 
-        [HttpPut("changeStatusToAuthorized/{id}")]
-        public ActionResult ChangePaymentToAuthorized(string id)
+        [HttpPut("changeStatusToVoid/{id}")]
+        public ActionResult ChangePaymentToVoided(string id)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace HospitalAPI.Controller
 
             try
             {
-                _paymentService.UpdateStatusCaptured(id);
+                _paymentService.UpdateStatusVoid(id);
             }
             catch
             {
