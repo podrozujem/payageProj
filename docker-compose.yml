@@ -1,0 +1,69 @@
+version: "3.8"
+services:
+#----------------------------------------------------------------
+  hospital_db:
+    image: postgres
+    container_name: hospital_db
+    restart: always
+    expose:
+      - "54321"
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: hospital
+      POSTGRES_PASSWORD: user
+      POSTGRES_HOST: localhost
+    volumes:
+      - hospital_pgdata:/var/lib/hospital
+#----------------------------------------------------------------
+  integration_db:
+    image: postgres
+    container_name: integration_db
+    restart: always
+    expose:
+      - "54322"
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: integration
+      POSTGRES_PASSWORD: user
+      POSTGRES_HOST: localhost
+    volumes:
+      - integration_pgdata:/var/lib/integration
+#----------------------------------------------------------------
+  blood_bank_isa_db:
+    image: postgres
+    container_name: blood_bank_isa_db
+    restart: always
+    expose:
+      - "54323"
+    ports:
+      - "54323:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: blood_bank
+      POSTGRES_PASSWORD: user
+      POSTGRES_HOST: localhost
+    volumes:
+      - blood_bank_isa_pgdata:/var/lib/blood_bank_isa
+#--------------------------------------------------------------------
+  pgadmin_psw:
+    image: dpage/pgadmin4
+    container_name: pgadmin_psw
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@email.com
+      PGADMIN_DEFAULT_PASSWORD: user
+    volumes:
+      - pgadmin_psw_data:/var/lib/pgadmin
+#----------------------------------------------------------------
+#----------------------------------------------------------------
+volumes:
+  blood_bank_isa_pgdata:
+  hospital_pgdata:
+  integration_pgdata:
+  pgadmin_psw_data:
