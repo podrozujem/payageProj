@@ -36,6 +36,12 @@ namespace HospitalAPI.Controller
         {
             return Ok(_paymentService.GetCaptured());
         }
+
+        [HttpGet("/getAllCapturedListPaginated/{page}/{pageSize}")]
+        public ActionResult GetCapturedPaginated(int page, int pageSize)
+        {
+            return Ok(_paymentService.GetAllCaptured(page, pageSize));
+        }
         [HttpPost]
         public ActionResult Create(CreatePaymentDTO paymentDTO)
         {

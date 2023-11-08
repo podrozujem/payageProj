@@ -28,7 +28,12 @@ namespace HospitalLibrary.Core.Service.payment
 
         public IEnumerable<Payment> GetAllCaptured(int page, int pageSize)
         {
-            throw new NotImplementedException();
+            List<Payment> capturedList = GetCaptured();
+            var totalCount = capturedList.Count;
+            var totalPages = (int) Math.Ceiling((decimal) totalCount / pageSize);
+            var paymentsPerPage = capturedList.Skip(page).Take(pageSize).ToList();
+            
+            return paymentsPerPage;
         }
 
         public Payment GetById(string id)
