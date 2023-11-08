@@ -37,13 +37,24 @@ namespace HospitalAPI.Controller
             return Ok(_paymentService.GetCaptured());
         }
         [HttpPost]
-        public ActionResult Create(Payment payment)
+        public ActionResult Create(CreatePaymentDTO paymentDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            Payment payment = new Payment();
+            payment.Id = Guid.NewGuid().ToString("N");
+            payment.CVV = paymentDTO.CVV;
+            payment.PaymentStatus = PaymentStatus.AUTHORIZED; 
+            payment.Currency = paymentDTO.Currency;
+            payment.CardHolderNumber = paymentDTO.CardHolderNumber;
+            payment.ExpirationMonth = paymentDTO.ExpirationMonth;
+            payment.ExpirationYear = paymentDTO.ExpirationYear; 
+            payment.Amount = paymentDTO.Amount;
+            payment.OrderReference = paymentDTO.OrderReference;
+            payment.HolderName = paymentDTO.HolderName;
 
             _paymentService.Create(payment);
             return CreatedAtAction("GetById", new { id = payment.Id }, payment);
